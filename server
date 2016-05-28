@@ -1,22 +1,35 @@
 var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
-    methodOverride = require("method-override"),
     mongoose = require('mongoose'),
-    router=express.Router();
+    morgan = require('morgan'),
+    router = express.Router();
+
+// Controllers
+var ItemsCtrl = require('./app/controllers/itemController');
 
 // Basic configuration
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(methodOverride());
+// Use this to log all request
+app.use(morgan('combined'));
 
 // Basic get request in the route /
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
     res.send("Hello World!");
 });
 
-app.use(router);
+router.route('/items')
+    .get(ItemsCtrl.findAllItems)
+    .post(ItemsCtrl.addItem);
 
-app.listen(3000, function () {
-    console.log('Server listening in port 3000');
+app.use('/api', router);
+
+mongoose.connect('mongodb://localhost/test', function (err, res) {
+    if (err) {
+        console.log('ERROR: connecting to Database. ' + err);
+    }
+    app.listen(3000, function () {
+        console.log("Node server running on http://localhost:3000");
+    });
 });
