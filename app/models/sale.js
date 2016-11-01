@@ -1,13 +1,14 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var saleSchema = new Schema({
-    date: {type: Date},
-    quantity: {type: Number},
-    items: [{
-        id: {type: Number},
-        quantity: {type: Number}
-    }]
+const Schema = mongoose.Schema;
+
+const saleSchema = new Schema({
+  date: { type: Date },
+  quantity: { type: Number },
+  items: [{
+    id: { type: Number },
+    quantity: { type: Number }
+  }]
 });
 
 module.exports = mongoose.model('Sales', saleSchema);
