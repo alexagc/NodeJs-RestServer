@@ -9,7 +9,6 @@ const router = new express.Router();
 // Controllers
 const ItemsCtrl = require('./controllers/itemController');
 
-
 function connectDatabase(mongoDatabase) {
   return new Promise((resolve, reject) => {
     mongoose.connect(mongoDatabase, (err, res) => {
