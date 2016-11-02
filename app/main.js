@@ -6,6 +6,9 @@ const morgan = require('morgan');
 const app = express();
 const router = new express.Router();
 
+// Use this because deprecation on moongose promises library
+mongoose.Promise = global.Promise;
+
 // Controllers
 const ItemsCtrl = require('./controllers/itemController');
 

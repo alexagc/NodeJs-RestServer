@@ -13,6 +13,7 @@ exports.findAllItems = (req, res) => {
 // POST - Insert a new TVShow in the DB
 exports.addItem = (req, res) => {
 
+  // TODO need to take params from request
   const item = new Items({
     /* title: req.body.title,
      year: req.body.year,
@@ -30,6 +31,7 @@ exports.addItem = (req, res) => {
   item.save((err) => {
     if (!err) {
       console.log('Created');
+      res.status(201).send(item);
     } else {
       console.log(`ERROR: ${err}`);
     }
