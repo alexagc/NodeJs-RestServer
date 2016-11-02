@@ -4,13 +4,11 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 
 const app = express();
-const router = new express.Router();
+
+const routes = require('./routes');
 
 // Use this because deprecation on moongose promises library
 mongoose.Promise = global.Promise;
-
-// Controllers
-const ItemsCtrl = require('./controllers/itemController');
 
 function connectDatabase(mongoDatabase) {
   return new Promise((resolve, reject) => {
@@ -32,18 +30,7 @@ function startServer() {
   // Use this to log all request
   app.use(morgan('combined'));
 
-  // The reques always past for this code
-  router.get('/', (req, res) => {
-    // In this part of code the rest api needs to return all available resources
-    // res.send(JSON.stringify(router.stack));
-  });
-
-  // TODO all the routes need to be in separate files outside the server launch
-  router.route('/items')
-    .get(ItemsCtrl.findAllItems)
-    .post(ItemsCtrl.addItem);
-
-  app.use('/api', router);
+  app.use('/api', routes);
 
   app.listen(3000, () => {
     console.log('Node server running on http://localhost:3000');

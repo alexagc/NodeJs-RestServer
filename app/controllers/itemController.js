@@ -1,39 +1,49 @@
 const Items = require('../models/item');
 
+module.exports = {
+  findAllItems,
+  addItem,
+  deleteItem
+};
+
 // GET - Return all items in the DB
-exports.findAllItems = (req, res) => {
+function findAllItems(req, res) {
   Items.find((err, items) => {
     if (err) {
-      res.send(500, err.message);
+      res.send(500).send(err.message);
     }
     res.status(200).jsonp(items);
   });
-};
+}
 
-// POST - Insert a new TVShow in the DB
-exports.addItem = (req, res) => {
-
-  // TODO need to take params from request
+// POST - Insert a new item in the DB
+function addItem(req, res) {
   const item = new Items({
-    /* title: req.body.title,
-     year: req.body.year,
-     country: req.body.country,
-     poster: req.body.poster,
-     seasons: req.body.seasons,
-     genre: req.body.genre,
-     summary: req.body.summary*/
-    description: 'Item test',
-    quantity: 95,
-    price: 65.21,
-    type: 'saleItem'
+    description: req.body.description,
+    quantity: req.body.quantity,
+    price: req.body.price,
+    type: req.body.type
   });
 
   item.save((err) => {
     if (!err) {
-      console.log('Created');
       res.status(201).send(item);
     } else {
-      console.log(`ERROR: ${err}`);
+      res.status(500).send(err.errors.type.message);
     }
   });
-};
+}
+
+// DELETE - Delete one regystry from db
+function deleteItem(req, res) {
+  Items.findOneAndRemove(req.body, (err, doc) => {
+    if (err) {
+      res.status(500).send(err.errors.type.message);
+    } else if (!doc || req.body) {
+      res.status(500).send('The document doesnt\'s exists');
+    } else {
+      res.sendStatus(200);
+    }
+
+  });
+}
