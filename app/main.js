@@ -9,6 +9,7 @@ const router = new express.Router();
 // Controllers
 const ItemsCtrl = require('./controllers/itemController');
 
+
 function connectDatabase(mongoDatabase) {
   return new Promise((resolve, reject) => {
     mongoose.connect(mongoDatabase, (err, res) => {
@@ -22,7 +23,9 @@ function connectDatabase(mongoDatabase) {
 
 function startServer() {
   // Basic configuration
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({
+    extended: false
+  }));
   app.use(bodyParser.json());
   // Use this to log all request
   app.use(morgan('combined'));
@@ -45,4 +48,7 @@ function startServer() {
   });
 }
 
-module.exports = { startServer, connectDatabase };
+module.exports = {
+  startServer,
+  connectDatabase
+};
