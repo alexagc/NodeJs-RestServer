@@ -1,6 +1,15 @@
 const server = require('./app/main');
 
-const mongoDatabase = 'mongodb://localhost/test';
+// Configure node to differents launch profiles profiles
+let mongoDatabase;
+switch (process.env.NODE_ENV) {
+  case 'production':
+    mongoDatabase = 'mongodb://localhost/test';
+    break;
+  default:
+    mongoDatabase = 'mongodb://localhost/test';
+    break;
+}
 
 function start() {
   server.connectDatabase(mongoDatabase)
