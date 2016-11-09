@@ -1,11 +1,5 @@
 const Items = require('../models/item');
 
-module.exports = {
-  findAllItems,
-  addItem,
-  deleteItem
-};
-
 // GET - Return all items in the DB
 function findAllItems(req, res) {
   Items.find((err, items) => {
@@ -47,3 +41,9 @@ function deleteItem(req, res) {
 
   });
 }
+
+module.exports = {
+  findAllItems,
+  addItem,
+  deleteItem
+};
